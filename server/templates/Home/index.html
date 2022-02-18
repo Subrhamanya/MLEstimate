@@ -1,0 +1,583 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- SEO Meta Tags -->
+    <meta name="description" content="Your description">
+    <meta name="author" content="Your name">
+
+    <!-- OG Meta Tags to improve the way the post looks when you share the page on Facebook, Twitter, LinkedIn -->
+	<meta property="og:site_name" content="" /> <!-- website name -->
+	<meta property="og:site" content="" /> <!-- website link -->
+	<meta property="og:title" content=""/> <!-- title shown in the actual shared post -->
+	<meta property="og:description" content="" /> <!-- description shown in the actual shared post -->
+	<meta property="og:image" content="" /> <!-- image link, make sure it's jpg -->
+	<meta property="og:url" content="" /> <!-- where do you want your post to link to -->
+	<meta name="twitter:card" content="summary_large_image"> <!-- to have large image post format in Twitter -->
+
+    <!-- Webpage Title -->
+    <title>MLEstimate - Estimator Company</title>
+
+    <!-- Styles -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;700&display=swap" rel="stylesheet">
+    <link href="{{ url_for('static', filename='Home/css/bootstrap.min.css') }}" rel="stylesheet" >
+    <link href="{{ url_for('static', filename='Home/css/fontawesome-all.min.css') }}" rel="stylesheet">
+    <link href="{{ url_for('static', filename='Home/css/aos.min.css') }}"  rel="stylesheet">
+    <link href="{{ url_for('static', filename='Home/css/swiper.css') }}" rel="stylesheet">
+    <link href="{{ url_for('static', filename='Home/css/style.css') }}" rel="stylesheet">
+
+    <!-- Favicon -->
+    <link rel="icon" href="{{ url_for('static', filename='Home/assets/images/favicon.png') }}">
+</head>
+<body>
+
+<!-- Login / Modal-->
+<div class="modal fade" id="login" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="login" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered" >
+    <div class="modal-content" style="background-color: #212d37;">
+      <div class="modal-header">
+        <h5 class="modal-title text-light" id="login">Login</h5>
+        <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <form action="/signin" method="post">
+        <div class="modal-body">        
+            <div class="form-group">
+                <label for="email" class="text-light">Email:</label>
+                <input type="email" class="form-control" id="email" placeholder="Enter email" name="email" required>
+            </div>
+            <div class="form-group">
+                <label for="pwd" class="text-light">Password:</label>
+                <input type="password" class="form-control" id="pwd" placeholder="Enter password" name="pwd" required>
+            </div>
+            <div class="checkbox">
+                <label class="text-light"><input type="checkbox" name="remember"> Remember me</label>
+            </div>
+        </div>
+        <div class="card-footer">
+           <button type="submit" class="btn-secondary text-light">Login</button> 
+        </div>
+    </form>
+    </div>
+  </div>
+</div>
+<!-- Registeration / Modal-->
+<div class="modal fade" id="register" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="register" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered" >
+    <div class="modal-content" style="background-color: #212d37;">
+      <div class="modal-header">
+        <h5 class="modal-title text-light" id="register">Registration</h5>
+        <button type="button" class="btn-close btn-close-white"  data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <form action="/register" method="post" onsubmit="return validate()">
+        <div class="modal-body">
+            <div class="form-group">
+                <label for="name" class="text-light">Name:</label>
+                <input type="text" class="form-control" id="name" placeholder="Enter Name" name="name" required>
+            </div>
+            <div class="form-group">
+                <label for="mob_no" class="text-light">Mobile Number:</label>
+                <input type="tel" class="form-control" id="mob_no" placeholder="Enter Mobile Number" name="mob_no" required>
+            </div>        
+            <div class="form-group">
+                <label for="email" class="text-light">Email:</label>
+                <input type="email" class="form-control" id="email" placeholder="Enter email" name="email" required>
+            </div>
+            <div class="form-group">
+                <label for="address" class="text-light">Address:</label>
+                <textarea type="email" class="form-control" id="address" placeholder="Enter address" name="address" required></textarea>
+            </div>
+            <div class="form-group">
+                <label for="pwd" class="text-light">Password:</label>
+                <input type="password" class="form-control" id="pwd1" placeholder="Enter password" name="pwd" required>
+            </div>
+            <div class="form-group">
+                <label for="pwd" class="text-light">Confirm Password:</label>
+                <input type="password" class="form-control" id="pwd2" placeholder="Enter password">
+            </div>
+            <div class="checkbox">
+                <label class="text-light"><input type="checkbox" name="remember"> Remember me</label>
+            </div>
+        </div>
+        <div class="card-footer">
+           <button type="submit" class="btn-secondary text-light">Register</button>
+        </div>
+    </form>
+    </div>
+  </div>
+</div>
+
+<!-- Privacy / Modal-->
+<div class="modal fade" id="privacy" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="privacy" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered" >
+    <div class="modal-content" style="background-color: #212d37;">
+      <div class="modal-header">
+        <h5 class="modal-title text-light" id="privacy">Privacy Policy</h5>
+        <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+        <div class="modal-body">
+            <div class="text-light">
+                <p>We are not responsible for any error.<br>This site is still in developeme nt</p >
+                
+            </div>
+        </div>
+        
+    </div>
+  </div>
+</div>
+
+
+<!-- Error / Modal-->
+
+<a  id="click" class="nav-link" style="display: none;" data-bs-toggle="modal"data-bs-target="#error"></a>
+<div style="display: none;"  class="modal fade" id="error" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="error" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" >
+        <div class="modal-content" style="background-color: #212d37;">
+            <div class="modal-header">
+                <h5 class="modal-title text-light" id="error">Error</h5>
+                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <div class="text-light">
+                    <p id="error_data">{{error}}</p >
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+<!-- Success Modal -->
+
+<a  id="success_click" class="nav-link" style="display: none;" data-bs-toggle="modal"data-bs-target="#success"></a>
+<div style="display: none;"  class="modal fade" id="success" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="error" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" >
+        <div class="modal-content" style="background-color: #212d37;">
+            <div class="modal-header">
+                <h5 class="modal-title text-light" id="success">Success</h5>
+                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <div class="text-light">
+                    <p id="success_data"></p >
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+
+    <!-- Navigation -->
+    <nav id="navbar" class="navbar navbar-expand-lg fixed-top navbar-dark" aria-label="Main navigation">
+        <div class="container">
+
+            <!-- Image Logo -->
+            <!-- <a class="navbar-brand logo-image" href="index.html"><img src="images/logo.svg" alt="alternative"></a> -->
+
+            <!-- Text Logo - Use this if you don't have a graphic logo -->
+            <a class="navbar-brand logo-text" href="#">ML<span class="home_text">Estimate</span></a>
+
+            <button class="navbar-toggler p-0 border-0" type="button" id="navbarSideCollapse" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+
+            <div class="navbar-collapse offcanvas-collapse" id="navbarsExampleDefault" >
+                <ul class="navbar-nav ms-auto navbar-nav-scroll">
+                    <li class="nav-item">
+                        <a class="nav-link active" aria-current="page" href="#header">Home</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#about">About</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#services">Services</a>
+                    </li>
+                    
+                    <li class="nav-item">
+                        <a class="nav-link" href="#contact">Contact</a>
+                    </li>
+                    <li class="nav-item">
+                        <a  class="nav-link" data-bs-toggle="modal"data-bs-target="#login">Login</a>
+                    </li>
+                    <li class="nav-item">
+                        <a  class="nav-link" data-bs-toggle="modal"data-bs-target="#register">Register</a>
+                    </li>
+                    
+                </ul>
+                 <span class="nav-item social-icons">
+                    <span class="fa-stack">
+                        <a href="#your-link">
+                            <i class="fas fa-circle fa-stack-2x"></i>
+                            <i class="fab fa-facebook-f fa-stack-1x"></i>
+                        </a>
+                    </span>
+                    <span class="fa-stack">
+                        <a href="#your-link">
+                            <i class="fas fa-circle fa-stack-2x"></i>
+                            <i class="fab fa-twitter fa-stack-1x"></i>
+                        </a>
+                    </span>
+                </span>
+                
+            </div> <!-- end of navbar-collapse -->
+        </div> <!-- end of container -->
+    </nav> <!-- end of navbar -->
+    <!-- end of navigation -->
+
+
+    <!-- Home -->
+    <section class="home py-5 d-flex align-items-center" id="header">
+        <div class="container text-light py-5"  data-aos="fade-right"> 
+            <h1 class="headline">Searching for <br><span class="home_text">Real Estate Price</span> Estimator ?</h1>
+            <p class="para para-light py-3">Here we are. Providing best real estate house prices on the basis of area using Machine learning Model. Our Estimate is totally on data we have collected.</p>
+            <div class="d-flex align-items-center">
+                <p class="p-2"><i class="fas fa-laptop-house fa-lg"></i></p>
+                <p>Machine learning Model.</p>  
+            </div>
+            <div class="d-flex align-items-center">
+                <p class="p-2"><i class="fas fa-wifi fa-lg"></i></p>
+                <p>Real Estate Price Estimator.</p>  
+            </div>
+            <div class="my-3">
+                <a class="btn" href="tel:9482364667">Contact Now</a>
+            </div>
+        </div> <!-- end of container -->
+    </section> <!-- end of home -->
+
+
+    <!-- Information -->
+    <section class="information">
+        <div class="container-fluid">  
+            <div class="row text-light">
+                <div class="col-lg-4 text-center p-5" data-aos="zoom-in">
+                    <i class="fas fa-tachometer-alt fa-3x p-2"></i>
+                    <h4 class="py-3">Best Estimator</h4>
+                    <!-- <p class="para-light">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Magnam odit consequatur doloribus natus in suscipit!</p> -->
+                </div>
+                <div class="col-lg-4 text-center p-5"  data-aos="zoom-in">
+                    <i class="fas fa-clock fa-3x p-2"></i>
+                    <h4 class="py-3">90% Accuracy</h4>
+                    <!-- <p class="para-light">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Magnam odit consequatur doloribus natus in suscipit!</p> -->
+                </div>
+                <div class="col-lg-4 text-center p-5 text-dark"  data-aos="zoom-in"> 
+                    <i class="fas fa-headset fa-3x p-2"></i>
+                    <h4 class="py-3">24/7 Support </h4>
+                    <!-- <p class="para-light">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Magnam odit consequatur doloribus natus in suscipit!</p> -->
+                </div>
+            </div>
+        </div> <!-- end of container -->
+    </section> <!-- end of information -->
+    
+
+    <!-- About -->
+    <section class="about d-flex align-items-center text-light py-5" id="about">
+        <div class="container" >
+            <div class="row d-flex align-items-center">
+                <div class="col-lg-7" data-aos="fade-right">
+                    <p>ABOUT US</p>
+                    <h2>We are top Real Estate <br> Price Prediction company</h2>
+                    <p class="py-2 para-light">We are elite developers providing information about real estate prices of Bangalore City.<br>We use Machine learning to estimate the Real Estate Price based on the area.</p>
+                   
+
+                    <div class="my-3">
+                        <a class="btn" href="#">Learn More</a>
+                    </div>
+                </div>
+                <div class="col-lg-5 text-center py-4 py-sm-0" data-aos="fade-down"> 
+                    <img class="img-fluid d-none d-lg-block" src="{{ url_for('static', filename='Home/assets/images/about.jpg') }}" alt="about" >
+                </div>
+            </div> <!-- end of row -->
+        </div> <!-- end of container -->
+    </section> <!-- end of about -->
+
+
+    <!-- Services -->
+    <section class="services d-flex align-items-center py-5" id="services">
+        <div class="container text-light">
+            <div class="text-center pb-4" >
+                <p>OUR SERVICES</p> 
+                <h2 class="py-2">Explore unlimited possibilities</h2>
+                
+            </div>
+            <div class="row gy-4 py-2" data-aos="zoom-in">
+                <div class="col-lg-4">
+                    <div class="card bg-transparent">
+                        <i class="fas fa-home fa-2x"></i>
+                        <h4 class="py-2">Free Services</h4>
+                        <p class="para-light">No cost for the services we are providing. You can get Price estimation free of cost.</p>
+                    </div>
+                </div>
+                <div class="col-lg-4">
+                    <div class="card bg-transparent">
+                        <i class="fas fa-wifi fa-2x"></i>
+                        <h4 class="py-2">Best Price Estimate</h4>
+                        <p class="para-light">Based on the area you selected we provide best price estimate.</p>
+                    </div>                    
+                </div>
+                <div class="col-lg-4">
+                    <div class="card bg-transparent">
+                        <i class="fas fa-phone fa-2x"></i>
+                        <h4 class="py-2">Estimate Automation</h4>
+                        <p class="para-light">No need to contact any Broker for the Real Estate Price clarification</p>
+                    </div>                    
+                </div>
+                
+            </div> <!-- end of row -->
+        </div> <!-- end of container -->
+    </section> <!-- end of services -->
+
+
+    
+    
+    <!-- Newsletter -->
+    <section class="newsletter text-light py-5">
+        <div class="container">
+            <div class="row" >
+                <div class="col-lg-6 text-center text-lg-start" data-aos="fade-right">
+                    <h4 class="py-5">Subscribe to our Newsletter</h4>
+                    
+                </div>
+                <div class="col-lg-6 d-flex align-items-center" data-aos="fade-down">
+                    <div class="input-group my-3">
+                        <input type="text" class="form-control p-2" placeholder="Enter your email address" aria-label="Recipient's email">
+                        <button class="btn-secondary text-light" type="button">Subscribe</button>
+                    </div>
+                </div>
+            </div> <!-- end of row -->
+        </div> <!-- end of container -->
+    </section> <!-- end of newsletter -->
+
+
+    <!-- Contact -->
+<form method="post" action="/contactus">
+    <section class="contact d-flex align-items-center py-5" id="contact">
+        <div class="container-fluid text-light">
+            <div class="row">
+                <div class="col-lg-6 d-flex justify-content-center justify-content-lg-end align-items-center px-lg-5" data-aos="fade-right">
+                    <div style="width:90%">
+                        <div class="text-center text-lg-start py-4 pt-lg-0">
+                            <p>CONTACT</p>
+                            <h2 class="py-2">Send your query</h2>
+                            
+                        </div>
+                        <div>
+                            <div class="row" >
+                                <div class="col-lg-12">
+                                    <div class="form-group py-2">
+                                        <input type="text" name="name" class="form-control form-control-input" id="exampleFormControlInput1" placeholder="Enter name">
+                                    </div>                                
+                                </div>
+                                
+                            </div>
+                            <div class="form-group py-1">
+                                <input type="email" name="email" class="form-control form-control-input" id="exampleFormControlInput3" placeholder="Enter email">
+                            </div> 
+                            <div class="form-group py-1">
+                                <input type="text" name="subject" class="form-control form-control-input" id="exampleFormControlInput4" placeholder="Enter subject">
+                            </div> 
+
+                            <div class="form-group py-2">
+                                <textarea class="form-control form-control-input" name="message" id="exampleFormControlTextarea1" rows="3" placeholder="Message"></textarea>
+                            </div>                            
+                        </div>
+                        <div class="my-3">
+                            <button class="btn form-control-submit-button" href="#your-link">Submit</button>
+                        </div>
+                    </div> <!-- end of div -->
+                </div> <!-- end of col -->
+                <div class="col-lg-6 d-flex align-items-center" data-aos="fade-down">
+                    <img class="img-fluid d-none d-lg-block" src="{{ url_for('static', filename='Home/assets/images/contact.jpg') }}"  alt="contact">
+                </div> <!-- end of col -->
+            </div> <!-- end of row -->
+        </div> <!-- end of container -->
+    </section> <!-- end of contact -->
+</form>
+
+    <!-- Location -->
+    <section class="location text-light py-5">
+        <div class="container" data-aos="zoom-in">
+            <div class="row">
+                <div class="col-lg-3 d-flex align-items-center">
+                    <div class="p-2"><i class="far fa-map fa-3x"></i></div>
+                    <div class="ms-2">
+                        <h6>ADDRESS</h6>
+                        <p>Bangalore</p>
+                    </div>
+                </div>
+                <div class="col-lg-3 d-flex align-items-center" >
+                    <div class="p-2"><i class="fas fa-mobile-alt fa-3x"></i></div>
+                    <div class="ms-2">
+                        <h6>CALL FOR QUERY</h6>
+                        <a href="tel:9482364667">+91 9482364667</a>
+                    </div>
+                </div>
+                <div class="col-lg-3 d-flex align-items-center" >
+                    <div class="p-2"><i class="far fa-envelope fa-3x"></i></div>
+                    <div class="ms-2">
+                        <h6>SEND US MESSAGE</h6>
+                        
+                        <a href="mailto:mlestimate@gmail.com">mlestimate@gmail.com</a>
+                    </div>
+                </div>
+                <div class="col-lg-3 d-flex align-items-center" >
+                    <div class="p-2"><i class="far fa-clock fa-3x"></i></div>
+                    <div class="ms-2">
+                        <h6>OPENING HOURS</h6>
+                        <p>09:00 AM - 06:00 PM</p>
+                    </div>
+                </div>
+            </div> <!-- end of row -->
+        </div> <!-- end of container -->
+    </section> <!-- end of location -->
+
+
+    <!-- Footer -->
+    <section class="footer text-light">
+        <div class="container">
+            <div class="row" data-aos="fade-right">
+                <div class="col-lg-3 py-4 py-md-5">
+                    <div class="d-flex align-items-center">
+                        <h4 class="">MLEstimate</h4>
+                    </div>
+                    <p class="py-3 para-light">We are elite developers providing information about real estate prices of Bangalore City. We use Machine learning to estimate the Real Estate Price based on the area.</p>
+                    <div class="d-flex">
+                        <div class="me-3">
+                            <a href="#your-link">
+                                <i class="fab fa-facebook-f fa-2x py-2"></i>
+                            </a>
+                        </div>
+                        <div class="me-3">
+                            <a href="#your-link">
+                                <i class="fab fa-twitter fa-2x py-2"></i>
+                            </a>
+                        </div>
+                        <div class="me-3">
+                            <a href="#your-link">
+                                <i class="fab fa-instagram fa-2x py-2"></i>
+                            </a>
+                        </div>
+                    </div>
+                </div> <!-- end of col -->
+
+                <div class="col-lg-3 py-4 py-md-5">
+                    <div>
+                        <h4 class="py-2">Quick Links</h4>
+                        <div class="d-flex align-items-center py-2">
+                            <i class="fas fa-caret-right"></i>
+                            <a href="#about"><p class="ms-3">About</p></a>
+                        </div>
+                        <div class="d-flex align-items-center py-2">
+                            <i class="fas fa-caret-right"></i>
+                            <a href="#services"><p class="ms-3">Services</p></a>
+                        </div>
+                        
+                        <div class="d-flex align-items-center py-2">
+                            <i class="fas fa-caret-right"></i>
+                            <a href="#contact"><p class="ms-3">Contact</p></a>
+                        </div>
+                    </div>
+                </div> <!-- end of col -->
+
+                <div class="col-lg-3 py-4 py-md-5">
+                    <div>
+                        <h4 class="py-2">Useful Links</h4>
+                        <div class="d-flex align-items-center py-2">
+                            <i class="fas fa-caret-right"></i>
+                            <a data-bs-toggle="modal"data-bs-target="#privacy"><p class="ms-3">Privacy</p></a>
+                            
+                        </div>
+                        <div class="d-flex align-items-center py-2">
+                            <i class="fas fa-caret-right"></i>
+                            <a data-bs-toggle="modal"data-bs-target="#privacy"><p class="ms-3">Terms</p></a>
+                        </div>
+                        
+                    </div>
+                </div> <!-- end of col -->
+
+                <div class="col-lg-3 py-4 py-md-5">
+                    <div class="d-flex align-items-center">
+                        <h4>Newsletter</h4>
+                    </div>
+                    <p class="py-3 para-light">Subcribe to our newsletter for updates.</p>
+                    <div class="d-flex align-items-center">
+                        <div class="input-group mb-3">
+                            <input type="text" class="form-control p-2" placeholder="Enter Email" aria-label="Recipient's email">
+                            <button class="btn-secondary text-light"><i class="fas fa-envelope fa-lg"></i></button>       
+                        </div>
+                    </div>
+                </div> <!-- end of col -->
+            </div> <!-- end of row -->
+        </div> <!-- end of container -->
+    </section> <!-- end of footer -->
+
+
+    <!-- Bottom -->
+    <div class="bottom py-2 text-light" >
+        <div class="container d-flex justify-content-center">
+            <div>
+                <p>Copyright © MLEstimate</p>
+            </div>
+            
+        </div> <!-- end of container -->
+    </div> <!-- end of bottom -->
+ 
+    
+    <!-- Back To Top Button -->
+    <button onclick="topFunction()" id="myBtn">
+        <img src="{{ url_for('static', filename='Home/assets/images/up-arrow.png') }}"  alt="alternative">
+    </button>
+    <!-- end of back to top button -->
+
+    
+    <!-- Scripts -->
+    <script src="{{ url_for('static', filename='Home/js/bootstrap.min.js') }}"></script><!-- Bootstrap framework -->
+    <script src="{{ url_for('static', filename='Home/js/purecounter.min.js') }}"></script> <!-- Purecounter counter for statistics numbers -->
+    <script src="{{ url_for('static', filename='Home/js/swiper.min.js') }}"></script><!-- Swiper for image and text sliders -->
+    <script src="{{ url_for('static', filename='Home/js/aos.js') }}"></script><!-- AOS on Animation Scroll -->
+    <script src="{{ url_for('static', filename='Home/js/script.js') }}"></script>  <!-- Custom scripts -->
+    <script>
+        if("{{error}}"){
+            document.getElementById('error_data').innerHTML="{{error}}";
+            document.getElementById('click').click();
+        }
+    </script>
+<script>
+        function validate(){
+            var a=document.getElementById('pwd1').value;
+            var b=document.getElementById('pwd2').value;
+            if (a==b){
+                return true;
+            }
+            else{
+                document.getElementById('error_data').innerHTML="Passwords Not matching";
+                document.getElementById('click').click();
+                return false;
+            }
+        }
+    </script>
+
+{%  with messages=get_flashed_messages() %}
+{% if messages %}
+{% for message in messages %}
+<script>
+    document.getElementById('success_data').innerHTML="{{message}}";
+            document.getElementById('success_click').click();
+</script>
+{% endfor %}
+{% endif %}
+{% endwith %}
+
+    <script type="text/javascript">
+        history.pushState(null,null,location.href);
+        history.back();
+        history.forward();
+        window.onpopstate=function (){
+            history.go(1);
+        }
+
+    </script>
+
+</body>
+</html>

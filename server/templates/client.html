@@ -1,0 +1,714 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- SEO Meta Tags -->
+    <meta name="description" content="Your description">
+    <meta name="author" content="Your name">
+
+    <!-- OG Meta Tags to improve the way the post looks when you share the page on Facebook, Twitter, LinkedIn -->
+	<meta property="og:site_name" content="" /> <!-- website name -->
+	<meta property="og:site" content="" /> <!-- website link -->
+	<meta property="og:title" content=""/> <!-- title shown in the actual shared post -->
+	<meta property="og:description" content="" /> <!-- description shown in the actual shared post -->
+	<meta property="og:image" content="" /> <!-- image link, make sure it's jpg -->
+	<meta property="og:url" content="" /> <!-- where do you want your post to link to -->
+	<meta name="twitter:card" content="summary_large_image"> <!-- to have large image post format in Twitter -->
+
+    <!-- Webpage Title -->
+    <title>MLEstimate - Estimator Company</title>
+
+    <!-- Styles -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;700&display=swap" rel="stylesheet">
+    <link href="{{ url_for('static', filename='Home/css/bootstrap.min.css') }}" rel="stylesheet" >
+    <link href="{{ url_for('static', filename='Home/css/fontawesome-all.min.css') }}" rel="stylesheet">
+    <link href="{{ url_for('static', filename='Home/css/aos.min.css') }}"  rel="stylesheet">
+    <link href="{{ url_for('static', filename='Home/css/swiper.css') }}" rel="stylesheet">
+    <link href="{{ url_for('static', filename='Home/css/style.css') }}" rel="stylesheet">
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="{{ url_for('static', filename='app.js') }}"></script>
+
+    <!-- Favicon -->
+    <link rel="icon" href="{{ url_for('static', filename='Home/assets/images/favicon.png') }}">
+</head>
+<body>
+
+<!-- Prediction / Modal-->
+<div class="modal fade" id="prediction" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="login" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered" >
+    <div class="modal-content" style="background-color: #212d37;">
+      <div class="modal-header">
+        <h5 class="modal-title text-light" id="prediction">Prediction</h5>
+        <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <form  method="post" onsubmit="return false;">
+        <div class="modal-body">
+            <input type="hidden" id="uid" value="{{id}}">
+            <div class="form-group">
+                <label for="uiSqft" class="text-light">Area (Square foot)</label>
+                <input type="number" class="form-control" id="uiSqft" placeholder="Enter Squarefoot" name="Squareft" value="1000" required>
+            </div>
+
+            <div class="form-group">
+                <label class="text-light">BHK</label><br>
+                <div class="form-check form-check-inline">
+                   <input class="form-check-input" type="radio" name="uiBHK" id="radio-bhk-1" value="1">
+                   <label class="form-check-label text-light" for="radio-bhk-1">1</label>
+                </div>
+
+                <div class="form-check form-check-inline">
+                   <input class="form-check-input" type="radio" name="uiBHK" id="radio-bhk-2" value="2" checked>
+                   <label class="form-check-label text-light" for="radio-bhk-2">2</label>
+                </div>
+
+                <div class="form-check form-check-inline">
+                   <input class="form-check-input" type="radio" name="uiBHK" id="radio-bhk-3" value="option3">
+                   <label class="form-check-label text-light" for="radio-bhk-3">3</label>
+                </div>
+
+                <div class="form-check form-check-inline">
+                   <input class="form-check-input" type="radio" name="uiBHK" id="radio-bhk-4" value="4">
+                   <label class="form-check-label text-light" for="radio-bhk-4">4</label>
+                </div>
+
+                <div class="form-check form-check-inline">
+                   <input class="form-check-input" type="radio" name="uiBHK" id="radio-bhk-5" value="5">
+                   <label class="form-check-label text-light" for="radio-bhk-5">5</label>
+                </div>
+
+            </div>
+
+            <div class="form-group">
+                <label class="text-light">Bath</label><br>
+
+                <div class="form-check form-check-inline">
+                   <input class="form-check-input" type="radio" name="uiBathrooms" id="radio-bath-1" value="1">
+                   <label class="form-check-label text-light" for="radio-bath-1">1</label>
+                </div>
+
+                <div class="form-check form-check-inline">
+                   <input class="form-check-input" type="radio" name="uiBathrooms" id="radio-bath-2" value="2" checked>
+                   <label class="form-check-label text-light" for="radio-bath-2">2</label>
+                </div>
+
+                <div class="form-check form-check-inline">
+                   <input class="form-check-input" type="radio" name="uiBathrooms" id="radio-bath-3" value="option3">
+                   <label class="form-check-label text-light" for="radio-bath-3">3</label>
+                </div>
+
+                <div class="form-check form-check-inline">
+                   <input class="form-check-input" type="radio" name="uiBathrooms" id="radio-bath-4" value="4">
+                   <label class="form-check-label text-light" for="radio-bath-4">4</label>
+                </div>
+
+                <div class="form-check form-check-inline">
+                   <input class="form-check-input" type="radio" name="uiBathrooms" id="radio-bath-5" value="5">
+                   <label class="form-check-label text-light" for="radio-bath-5">5</label>
+                </div>
+
+            </div>
+
+            <div class="form-group">
+                <label for="uiLocations" class="text-light">Location</label><br>
+                <select class="custom-select form-control" id="uiLocations">
+                    <option value="" disabled="disabled" selected="selected">Choose a Location</option>
+                    <option>Electronic city</option>
+                    <option>Rajaji Nagar</option>
+                </select>
+            </div>
+
+        </div>
+        <div class="card-footer">
+           <button type="submit" class="btn-secondary text-light" onclick="onClickedEstimatePrice()">Predict</button>
+        </div>
+    </form>
+    </div>
+  </div>
+</div>
+
+
+
+<!-- Give us data / Modal-->
+<div class="modal fade" id="data" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="data" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered" >
+    <div class="modal-content" style="background-color: #212d37;">
+      <div class="modal-header">
+        <h5 class="modal-title text-light" id="data">Give Us Data</h5>
+        <button type="button" class="btn-close btn-close-white"  data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <form method="post" onsubmit="return false;">
+        <div class="modal-body">
+            <div class="form-group">
+                <label for="uiLocations2" class="text-light">Location</label><br>
+                <select class="custom-select form-control" id="uiLocations2">
+                    <option value="" disabled="disabled" selected="selected">Choose a Location</option>
+                    <option>Electronic city</option>
+                    <option>Rajaji Nagar</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="bath" class="text-light">Bath:</label>
+                <input type="number" class="form-control" id="bath" onkeypress="return isNumber(event)" placeholder="Enter Number Of Bathrooms" name="bath" required>
+            </div>
+            <div class="form-group">
+                <label for="bhk" class="text-light">BHK:</label>
+                <input type="number" class="form-control" onkeypress="return isNumber(event)" id="bhk" placeholder="Enter BHK number" name="bhk" required>
+            </div>
+            <div class="form-group">
+                <label for="size" class="text-light">Area Size:</label>
+                <input type="number" class="form-control" onkeypress="return isNumber(event)" id="size" placeholder="Enter area size in square foot" name="size" required>
+            </div>
+            <div class="form-group">
+                <label for="worth" class="text-light">Price:</label>
+                <input type="number" onkeypress="return isNumber(event)" class="form-control" id="worth" name="worth" placeholder="Enter price in lakhs">
+            </div>
+        </div>
+        <div class="card-footer">
+           <button type="submit" onclick="addData()" class="btn-secondary text-light">Save</button>
+        </div>
+    </form>
+    </div>
+  </div>
+</div>
+
+<!-- Privacy / Modal-->
+<div class="modal fade" id="privacy" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="privacy" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered" >
+    <div class="modal-content" style="background-color: #212d37;">
+      <div class="modal-header">
+        <h5 class="modal-title text-light" id="privacy">Privacy Policy</h5>
+        <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+        <div class="modal-body">
+            <div class="text-light">
+                <p>We are not responsible for any error.<br>This site is still in developement</p >
+            </div>
+        </div>
+
+    </div>
+  </div>
+</div>
+
+
+<!-- Error / Modal-->
+
+<a  id="click" class="nav-link" style="display: none;" data-bs-toggle="modal" tabindex="-1" data-bs-target="#error"></a>
+<div style="display: none;"  class="modal fade" id="error" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="error" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" >
+        <div class="modal-content" style="background-color: #212d37;">
+            <div class="modal-header">
+                <h5 class="modal-title text-light" id="error">Error</h5>
+                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <div class="text-light">
+                    <p id="error_data">{{error}}</p >
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+
+<!-- Success / Modal-->
+
+<a  id="success_click" class="nav-link" style="display: none;" data-bs-toggle="modal"data-bs-target="#success"></a>
+<div style="display: none;"  class="modal fade" id="success" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="error" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" >
+        <div class="modal-content" style="background-color: #212d37;">
+            <div class="modal-header">
+                <h5 class="modal-title text-light" id="success">Success</h5>
+                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <div class="text-light">
+                    <p id="success_data"></p >
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+<!-- Estimate / Modal-->
+
+<a  id="pprice"  class="nav-link" style="display: none;" data-bs-toggle="modal" data-bs-target="#price"></a>
+<div style="display: none;"  class="modal fade" id="price" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="error" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" >
+        <div class="modal-content" style="background-color: #212d37;">
+            <div class="modal-header">
+                <h5 class="modal-title text-light" id="price">Estimated Price</h5>
+                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <div class="text-light">
+                    <p id="price_data"></p >
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+<!-- Settings / Modal-->
+<div style="display: none;" class="modal fade" id="settings" data-bs-backdrop="static"  data-bs-keyboard="false" tabindex="-1"  aria-labelledby="settings" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered" >
+    <div class="modal-content" style="background-color: #212d37;">
+      <div class="modal-header">
+        <h5 class="modal-title text-light" id="settings">Settings</h5>
+        <button type="button" class="btn-close btn-close-white"  data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <form method="post" onsubmit="return false;">
+        <div class="modal-body">
+            <div>
+                <center><img class="img-fluid" style="width: 50%;height: 50%;" src="{{ url_for('static', filename='Home/assets/images/user.png') }}"></center>
+            </div>
+            <input type="hidden" id="edit_id" name="edit_id" value="{{session.get('data')[0]['id']}}" >
+            <div class="form-group">
+                <label for="edit_name" class="text-light">Name:</label>
+                <input type="text" class="form-control" id="edit_name" placeholder="Enter Name" name="edit_name" value="{{session.get('data')[0]['name']}}" required>
+            </div>
+            <div class="form-group">
+                <label for="edit_email" class="text-light">Email:</label>
+                <input type="email" class="form-control" id="edit_email" placeholder="Enter Email" name="edit_email" value="{{session.get('data')[0]['email']}}" required>
+            </div>
+            <div class="form-group">
+                <label for="edit_mob" class="text-light">Mobile Number:</label>
+                <input type="number" class="form-control" onkeypress="return isNumber(event)" id="edit_mob" placeholder="Enter Mobile Number" name="edit_mob" pattern="{10}" value="{{session.get('data')[0]['mobile_number']}}" required>
+            </div>
+            <div class="form-group">
+                <label for="edit_address" class="text-light">Address:</label>
+                <textarea  class="form-control" id="edit_address" name="edit_address" placeholder="Enter Address" required>{{session.get('data')[0]['address']}}</textarea>
+            </div>
+            <div class="form-group">
+                <label for="edit_password" class="text-light">Password:</label>
+                <input type="password"  class="form-control" id="edit_password" name="edit_password" placeholder="Enter Password" value="{{session.get('data')[0]['password']}}" required>
+            </div>
+        </div>
+        <div class="card-footer">
+           <button type="submit" onclick="updateData()" class="btn-secondary text-light">Save</button>
+        </div>
+    </form>
+    </div>
+  </div>
+</div>
+
+
+
+    <!-- Navigation -->
+    <nav id="navbar" class="navbar navbar-expand-lg fixed-top navbar-dark" aria-label="Main navigation">
+        <div class="container">
+
+            <!-- Image Logo -->
+            <!-- <a class="navbar-brand logo-image" href="index.html"><img src="images/logo.svg" alt="alternative"></a> -->
+
+            <!-- Text Logo - Use this if you don't have a graphic logo -->
+            <a class="navbar-brand logo-text" href="#">ML<span class="home_text">Estimate</span></a>
+
+            <button class="navbar-toggler p-0 border-0" type="button" id="navbarSideCollapse" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+
+            <div class="navbar-collapse offcanvas-collapse" id="navbarsExampleDefault" >
+                <ul class="navbar-nav ms-auto navbar-nav-scroll">
+                    <li class="nav-item">
+                        <a class="nav-link active" aria-current="page" href="#header">Home</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#about">About</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#services">Services</a>
+                    </li>
+
+                    <li class="nav-item">
+                        <a class="nav-link" href="#contact">Contact</a>
+                    </li>
+                    <li class="nav-item">
+                        <a  class="nav-link" data-bs-toggle="modal" data-bs-target="#prediction">Prediction</a>
+                    </li>
+                    <li class="nav-item">
+                        <a  class="nav-link" data-bs-toggle="modal" data-bs-target="#data">Provide Data</a>
+                    </li>
+                    <li class="nav-item">
+                        <a  class="nav-link" data-bs-toggle="modal" data-bs-target="#settings">Settings</a>
+                    </li>
+                    <li class="nav-item">
+                        <a  class="nav-link" href="/signout">Sign out</a>
+                    </li>
+                </ul>
+                 <span class="nav-item social-icons">
+                    <span class="fa-stack">
+                        <a href="#your-link">
+                            <i class="fas fa-circle fa-stack-2x"></i>
+                            <i class="fab fa-facebook-f fa-stack-1x"></i>
+                        </a>
+                    </span>
+                    <span class="fa-stack">
+                        <a href="#your-link">
+                            <i class="fas fa-circle fa-stack-2x"></i>
+                            <i class="fab fa-twitter fa-stack-1x"></i>
+                        </a>
+                    </span>
+                </span>
+
+            </div> <!-- end of navbar-collapse -->
+        </div> <!-- end of container -->
+    </nav> <!-- end of navbar -->
+    <!-- end of navigation -->
+
+
+    <!-- Home -->
+    <section class="home py-5 d-flex align-items-center" id="header">
+        <div class="container text-light py-5"  data-aos="fade-right">
+            <h1 class="headline">Searching for <br><span class="home_text">Real Estate Price</span> Estimator ?</h1>
+            <p class="para para-light py-3">Here we are. Providing best real estate house prices on the basis of area using Machine learning Model. Our Estimate is totally on data we have collected.</p>
+            <div class="d-flex align-items-center">
+                <p class="p-2"><i class="fas fa-laptop-house fa-lg"></i></p>
+                <p>Machine learning Model.</p>
+            </div>
+            <div class="d-flex align-items-center">
+                <p class="p-2"><i class="fas fa-wifi fa-lg"></i></p>
+                <p>Real Estate Price Estimator.</p>
+            </div>
+            <div class="my-3">
+                <a class="btn" href="tel:9482364667">Contact Now</a>
+            </div>
+        </div> <!-- end of container -->
+    </section> <!-- end of home -->
+
+
+    <!-- Information -->
+    <section class="information">
+        <div class="container-fluid">
+            <div class="row text-light">
+                <div class="col-lg-4 text-center p-5" data-aos="zoom-in">
+                    <i class="fas fa-tachometer-alt fa-3x p-2"></i>
+                    <h4 class="py-3">Best Estimator</h4>
+                    <!-- <p class="para-light">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Magnam odit consequatur doloribus natus in suscipit!</p> -->
+                </div>
+                <div class="col-lg-4 text-center p-5"  data-aos="zoom-in">
+                    <i class="fas fa-clock fa-3x p-2"></i>
+                    <h4 class="py-3">90% Accuracy</h4>
+                    <!-- <p class="para-light">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Magnam odit consequatur doloribus natus in suscipit!</p> -->
+                </div>
+                <div class="col-lg-4 text-center p-5 text-dark"  data-aos="zoom-in">
+                    <i class="fas fa-headset fa-3x p-2"></i>
+                    <h4 class="py-3">24/7 Support </h4>
+                    <!-- <p class="para-light">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Magnam odit consequatur doloribus natus in suscipit!</p> -->
+                </div>
+            </div>
+        </div> <!-- end of container -->
+    </section> <!-- end of information -->
+
+
+    <!-- About -->
+    <section class="about d-flex align-items-center text-light py-5" id="about">
+        <div class="container" >
+            <div class="row d-flex align-items-center">
+                <div class="col-lg-7" data-aos="fade-right">
+                    <p>ABOUT US</p>
+                    <h2>We are top Real Estate <br> Price Prediction company</h2>
+                    <p class="py-2 para-light">We are elite developers providing information about real estate prices of Bangalore City.<br>We use Machine learning to estimate the Real Estate Price based on the area.</p>
+
+
+                    <div class="my-3">
+                        <a class="btn" href="#">Learn More</a>
+                    </div>
+                </div>
+                <div class="col-lg-5 text-center py-4 py-sm-0" data-aos="fade-down">
+                    <img class="img-fluid d-none d-lg-block" src="{{ url_for('static', filename='Home/assets/images/about.jpg') }}" alt="about" >
+                </div>
+            </div> <!-- end of row -->
+        </div> <!-- end of container -->
+    </section> <!-- end of about -->
+
+
+    <!-- Services -->
+    <section class="services d-flex align-items-center py-5" id="services">
+        <div class="container text-light">
+            <div class="text-center pb-4" >
+                <p>OUR SERVICES</p>
+                <h2 class="py-2">Explore unlimited possibilities</h2>
+
+            </div>
+            <div class="row gy-4 py-2" data-aos="zoom-in">
+                <div class="col-lg-4">
+                    <div class="card bg-transparent">
+                        <i class="fas fa-home fa-2x"></i>
+                        <h4 class="py-2">Free Services</h4>
+                        <p class="para-light">No cost for the services we are providing. You can get Price estimation free of cost.</p>
+                    </div>
+                </div>
+                <div class="col-lg-4">
+                    <div class="card bg-transparent">
+                        <i class="fas fa-wifi fa-2x"></i>
+                        <h4 class="py-2">Best Price Estimate</h4>
+                        <p class="para-light">Based on the area you selected we provide best price estimate.</p>
+                    </div>
+                </div>
+                <div class="col-lg-4">
+                    <div class="card bg-transparent">
+                        <i class="fas fa-phone fa-2x"></i>
+                        <h4 class="py-2">Estimate Automation</h4>
+                        <p class="para-light">No need to contact any Broker for the Real Estate Price clarification</p>
+                    </div>
+                </div>
+
+            </div> <!-- end of row -->
+        </div> <!-- end of container -->
+    </section> <!-- end of services -->
+
+
+
+
+    <!-- Newsletter -->
+    <section class="newsletter text-light py-5">
+        <div class="container">
+            <div class="row" >
+                <div class="col-lg-6 text-center text-lg-start" data-aos="fade-right">
+                    <h4 class="py-5">Subscribe to our Newsletter</h4>
+
+                </div>
+                <div class="col-lg-6 d-flex align-items-center" data-aos="fade-down">
+                    <div class="input-group my-3">
+                        <input type="text" class="form-control p-2" placeholder="Enter your email address" aria-label="Recipient's email">
+                        <button class="btn-secondary text-light" type="button">Subscribe</button>
+                    </div>
+                </div>
+            </div> <!-- end of row -->
+        </div> <!-- end of container -->
+    </section> <!-- end of newsletter -->
+
+
+    <!-- Contact -->
+<form method="post" action="/contactus">
+    <section class="contact d-flex align-items-center py-5" id="contact">
+        <div class="container-fluid text-light">
+            <div class="row">
+                <div class="col-lg-6 d-flex justify-content-center justify-content-lg-end align-items-center px-lg-5" data-aos="fade-right">
+                    <div style="width:90%">
+                        <div class="text-center text-lg-start py-4 pt-lg-0">
+                            <p>CONTACT</p>
+                            <h2 class="py-2">Send your query</h2>
+
+                        </div>
+                        <div>
+                            <div class="row" >
+                                <div class="col-lg-12">
+                                    <div class="form-group py-2">
+                                        <input type="text" hidden name="name" class="form-control form-control-input" id="exampleFormControlInput1" placeholder="Enter name" value="{{session.get('data')[0]['name']}}">
+                                    </div>
+                                </div>
+
+                            </div>
+                            <div class="form-group py-1">
+                                <input type="email" name="email" hidden class="form-control form-control-input" id="exampleFormControlInput3" placeholder="Enter email" value="{{session.get('data')[0]['email']}}">
+                            </div>
+                            <div class="form-group py-1">
+                                <input type="text" name="subject" class="form-control form-control-input" id="exampleFormControlInput4" placeholder="Enter subject">
+                            </div>
+
+                            <div class="form-group py-2">
+                                <textarea class="form-control form-control-input" name="message" id="exampleFormControlTextarea1" rows="3" placeholder="Message"></textarea>
+                            </div>
+                        </div>
+                        <div class="my-3">
+                            <button class="btn form-control-submit-button" href="#your-link">Submit</button>
+                        </div>
+                    </div> <!-- end of div -->
+                </div> <!-- end of col -->
+                <div class="col-lg-6 d-flex align-items-center" data-aos="fade-down">
+                    <img class="img-fluid d-none d-lg-block" src="{{ url_for('static', filename='Home/assets/images/contact.jpg') }}"  alt="contact">
+                </div> <!-- end of col -->
+            </div> <!-- end of row -->
+        </div> <!-- end of container -->
+    </section> <!-- end of contact -->
+</form>
+
+    <!-- Location -->
+    <section class="location text-light py-5">
+        <div class="container" data-aos="zoom-in">
+            <div class="row">
+                <div class="col-lg-3 d-flex align-items-center">
+                    <div class="p-2"><i class="far fa-map fa-3x"></i></div>
+                    <div class="ms-2">
+                        <h6>ADDRESS</h6>
+                        <p>Bangalore</p>
+                    </div>
+                </div>
+                <div class="col-lg-3 d-flex align-items-center" >
+                    <div class="p-2"><i class="fas fa-mobile-alt fa-3x"></i></div>
+                    <div class="ms-2">
+                        <h6>CALL FOR QUERY</h6>
+                        <a href="tel:9482364667">+91 9482364667</a>
+                    </div>
+                </div>
+                <div class="col-lg-3 d-flex align-items-center" >
+                    <div class="p-2"><i class="far fa-envelope fa-3x"></i></div>
+                    <div class="ms-2">
+                        <h6>SEND US MESSAGE</h6>
+
+                        <a href="mailto:mlestimate@gmail.com">mlestimate@gmail.com</a>
+                    </div>
+                </div>
+                <div class="col-lg-3 d-flex align-items-center" >
+                    <div class="p-2"><i class="far fa-clock fa-3x"></i></div>
+                    <div class="ms-2">
+                        <h6>OPENING HOURS</h6>
+                        <p>09:00 AM - 06:00 PM</p>
+                    </div>
+                </div>
+            </div> <!-- end of row -->
+        </div> <!-- end of container -->
+    </section> <!-- end of location -->
+
+
+    <!-- Footer -->
+    <section class="footer text-light">
+        <div class="container">
+            <div class="row" data-aos="fade-right">
+                <div class="col-lg-3 py-4 py-md-5">
+                    <div class="d-flex align-items-center">
+                        <h4 class="">ML<span class="home_text">Estimate</span></h4>
+                    </div>
+                    <p class="py-3 para-light">We are elite developers providing information about real estate prices of Bangalore City. We use Machine learning to estimate the Real Estate Price based on the area.</p>
+                    <div class="d-flex">
+                        <div class="me-3">
+                            <a href="#your-link">
+                                <i class="fab fa-facebook-f fa-2x py-2"></i>
+                            </a>
+                        </div>
+                        <div class="me-3">
+                            <a href="#your-link">
+                                <i class="fab fa-twitter fa-2x py-2"></i>
+                            </a>
+                        </div>
+                        <div class="me-3">
+                            <a href="#your-link">
+                                <i class="fab fa-instagram fa-2x py-2"></i>
+                            </a>
+                        </div>
+                    </div>
+                </div> <!-- end of col -->
+
+                <div class="col-lg-3 py-4 py-md-5">
+                    <div>
+                        <h4 class="py-2">Quick Links</h4>
+                        <div class="d-flex align-items-center py-2">
+                            <i class="fas fa-caret-right"></i>
+                            <a href="#about"><p class="ms-3">About</p></a>
+                        </div>
+                        <div class="d-flex align-items-center py-2">
+                            <i class="fas fa-caret-right"></i>
+                            <a href="#services"><p class="ms-3">Services</p></a>
+                        </div>
+
+                        <div class="d-flex align-items-center py-2">
+                            <i class="fas fa-caret-right"></i>
+                            <a href="#contact"><p class="ms-3">Contact</p></a>
+                        </div>
+                    </div>
+                </div> <!-- end of col -->
+
+                <div class="col-lg-3 py-4 py-md-5">
+                    <div>
+                        <h4 class="py-2">Useful Links</h4>
+                        <div class="d-flex align-items-center py-2">
+                            <i class="fas fa-caret-right"></i>
+                            <a data-bs-toggle="modal"data-bs-target="#privacy"><p class="ms-3">Privacy</p></a>
+
+                        </div>
+                        <div class="d-flex align-items-center py-2">
+                            <i class="fas fa-caret-right"></i>
+                            <a data-bs-toggle="modal"data-bs-target="#privacy"><p class="ms-3">Terms</p></a>
+                        </div>
+
+                    </div>
+                </div> <!-- end of col -->
+
+                <div class="col-lg-3 py-4 py-md-5">
+                    <div class="d-flex align-items-center">
+                        <h4>Newsletter</h4>
+                    </div>
+                    <p class="py-3 para-light">Subcribe to our newsletter for updates.</p>
+                    <div class="d-flex align-items-center">
+                        <div class="input-group mb-3">
+                            <input type="text" class="form-control p-2" placeholder="Enter Email" aria-label="Recipient's email">
+                            <button class="btn-secondary text-light"><i class="fas fa-envelope fa-lg"></i></button>
+                        </div>
+                    </div>
+                </div> <!-- end of col -->
+            </div> <!-- end of row -->
+        </div> <!-- end of container -->
+    </section> <!-- end of footer -->
+
+
+    <!-- Bottom -->
+    <div class="bottom py-2 text-light" >
+        <div class="container d-flex justify-content-center">
+            <div>
+                <p>Copyright © ML<span class="home_text">Estimate</span></p>
+            </div>
+
+        </div> <!-- end of container -->
+    </div> <!-- end of bottom -->
+
+
+    <!-- Back To Top Button -->
+    <button onclick="topFunction()" id="myBtn">
+        <img src="{{ url_for('static', filename='Home/assets/images/up-arrow.png') }}"  alt="alternative">
+    </button>
+    <!-- end of back to top button -->
+
+
+    <!-- Scripts -->
+    <script src="{{ url_for('static', filename='Home/js/bootstrap.min.js') }}"></script><!-- Bootstrap framework -->
+    <script src="{{ url_for('static', filename='Home/js/purecounter.min.js') }}"></script> <!-- Purecounter counter for statistics numbers -->
+    <script src="{{ url_for('static', filename='Home/js/swiper.min.js') }}"></script><!-- Swiper for image and text sliders -->
+    <script src="{{ url_for('static', filename='Home/js/aos.js') }}"></script><!-- AOS on Animation Scroll -->
+    <script src="{{ url_for('static', filename='Home/js/script.js') }}"></script>  <!-- Custom scripts -->
+    <script>
+        if("{{error}}"){
+            document.getElementById('error_data').innerHTML="{{error}}";
+            document.getElementById('click').click();
+        }
+
+    </script>
+<script>
+    function isNumber(evt) {
+
+    var charcode=(evt.which) ? evt.which : event.keyCode;
+    if (charcode > 31 && (charcode < 48 || charcode > 57))
+        return false;
+
+    return true;
+
+}
+</script>
+{%  with messages=get_flashed_messages() %}
+{% if messages %}
+{% for message in messages %}
+<script>
+    document.getElementById('success_data').innerHTML="{{message}}";
+            document.getElementById('success_click').click();
+</script>
+{% endfor %}
+{% endif %}
+{% endwith %}
+
+<script type="text/javascript">
+        history.pushState(null,null,location.href);
+        history.back();
+        history.forward();
+        window.onpopstate=function (){
+            history.go(1);
+        }
+
+</script>
+
+</body>
+</html>
