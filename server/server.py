@@ -15,12 +15,13 @@ def home():
     else:
         return render_template('client.html')
 
+
 @app.route('/admin')
 def admin_home():
     if 'data' not in session:
         return render_template('login.html')
     else:
-        return render_template('admin_home.html',data=session.get('data')[0])
+        return render_template('admin_home.html', data=session.get('data')[0])
 
 
 @app.route('/signout')
@@ -47,11 +48,11 @@ def login():
         return response
 
 
-@app.route('/admin/login',methods=['post'])
+@app.route('/admin/login', methods=['post'])
 def admin_login():
     email = request.form.get('email')
     password = request.form.get('password')
-    db=Database.Database()
+    db = Database.Database()
     response = db.admin_login({'email': email, 'password': password})
     if response == False:
         error = "Email or password is wrong"
@@ -60,12 +61,14 @@ def admin_login():
         session['data'] = response
         return render_template('admin_home.html', data=session.get('data')[0])
 
+
 @app.route('/admin/logout')
 def admin_logout():
     session.pop('data')
     response = flask.redirect('/admin')
     response.headers.add('Cache-Control', 'no-store,no-cache,must-revalidate,post-check=0,pre-check=0')
     return response
+
 
 @app.route('/register', methods=['post'])
 def register():
@@ -90,18 +93,19 @@ def aboutUs():
     email = request.form.get('email')
     subject = request.form.get('subject')
     message = request.form.get('message')
-    ml=MonkeyLearn('your id')
+    ml = MonkeyLearn('d2ce0064b54a01501d5f1b694d1bacf4579b99f2')
     response = ml.classifiers.classify(
         model_id='cl_Jx8qzYJh',
         data=[
             message
         ]
     )
-    message_type=response.body[0]['classifications'][0]['tag_name']
-    confidence=response.body[0]['classifications'][0]['confidence']
+    message_type = response.body[0]['classifications'][0]['tag_name']
+    confidence = response.body[0]['classifications'][0]['confidence']
 
     db = Database.Database()
-    if (db.insert({'name': name, 'email': email, 'subject': subject, 'message': message, 'message_type':message_type, 'confidence':confidence}, 'feedback')):
+    if db.insert({'name': name, 'email': email, 'subject': subject, 'message': message, 'message_type': message_type,
+                  'confidence': confidence}, 'feedback'):
         flash("Thank you for giving feedback")
         response = flask.redirect('/')
 
@@ -336,6 +340,7 @@ def admin_delete_data():
         })
     return response
 
+
 @app.route('/admin/admin_history_analysis', methods=['get'])
 def admin_history_analysis():
     if 'data' not in session:
@@ -352,6 +357,7 @@ def admin_history_analysis():
         response.headers.add('Access-Control-Allow-Origin', '*')
 
         return response
+
 
 @app.route('/admin/admin_feedback_analysis', methods=['get'])
 def admin_feedback_analysis():
@@ -372,4 +378,4 @@ def admin_feedback_analysis():
 
 
 if __name__ == "__main__":
-    app.run()
+    app.run(debug=True)
